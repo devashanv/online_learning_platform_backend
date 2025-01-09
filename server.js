@@ -3,8 +3,13 @@ import cors from "cors";
 import 'dotenv/config';
 import cookieParser from "cookie-parser";
 
+import dbConnect from './config/db.js'
+
 const app = express();
 const port = process.env.PORT || 5000;
+
+//invoke db conn
+dbConnect();
 
 //add middlewares
 app.use(express.json());
