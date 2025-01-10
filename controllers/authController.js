@@ -107,3 +107,13 @@ export const userLogout = async (req, res) => {
         return  res.json({success: false, message: error.message});
     }
 }
+
+//check authentication
+export const userAuthentication = async (req, res) => {
+    try{
+        return res.json({success: true, message: "user Authenticated."})
+    }
+    catch (error){
+        return res.json({success: false, message: error.message});
+    }
+}
