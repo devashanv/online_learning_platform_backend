@@ -3,7 +3,7 @@ import cors from "cors";
 import 'dotenv/config';
 import cookieParser from "cookie-parser";
 
-import dbConnect from './config/db.js'
+import dbConnect from './config/dbConnect.js'
 
 const app = express();
 const port = process.env.PORT || 5000;
