@@ -29,7 +29,7 @@ export const userRegister = async (req, res) => {
 
             //jwt token
             const payload = {id: user._id};
-            const expire = {expireIn: '1d'};
+            const expire = {expiresIn: '1d'};
             const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, expire);
 
             //set cookie
@@ -50,7 +50,7 @@ export const userRegister = async (req, res) => {
 }
 
 //login
-export const userLogin = async (res, req) => {
+export const userLogin = async (req, res) => {
     const {email, password} = req.body;
 
     if (!email || !password){
@@ -65,14 +65,15 @@ export const userLogin = async (res, req) => {
         }
 
         //check password
-        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        const isPasswordCorrect = await bcrypt.compare(password, loginUser.password);
+
         if (!isPasswordCorrect){
             return res.json({sucess: false, message: "Password incorrect."});
         }
 
         //token
-        const payload = {id: user._id};
-        const expire = {expireIn: "1d"};
+        const payload = {id: loginUser._id};
+        const expire = {expiresIn: "1d"};
         const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, expire);
 
         res.cookie("token", jwtToken, {
@@ -83,7 +84,6 @@ export const userLogin = async (res, req) => {
         });
 
         return res.json({sucess: true, message: "Login succesful."})
-        
 
     }
     catch (error){
