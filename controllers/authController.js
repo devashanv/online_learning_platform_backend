@@ -72,7 +72,7 @@ export const userLogin = async (req, res) => {
         }
 
         //token
-        const payload = {id: loginUser._id};
+        const payload = {id: loginUser._id, role: loginUser.role};
         const expire = {expiresIn: "1d"};
         const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, expire);
 
@@ -116,4 +116,4 @@ export const userAuthentication = async (req, res) => {
     catch (error){
         return res.json({success: false, message: error.message});
     }
-}
+} 
