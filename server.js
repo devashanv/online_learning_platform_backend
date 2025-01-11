@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import dbConnect from './config/dbConnect.js';
 import authRouter from './routes/authRoutes.js';
+import userRouter from "./routes/userRoutes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,9 +18,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({credentials: true}))
 
-//API endpoints
+//routes
 app.get('/', (req, res) => res.send("API Server Working"));
 app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
 
 app.listen(port, () => {
     console.log(`Serever started on PORT:${port}`)
