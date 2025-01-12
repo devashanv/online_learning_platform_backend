@@ -42,7 +42,6 @@ export const getAllCourses = async (req, res) => {
     }
 }
 
-
 //get by id
 export const getCourseById = async (req, res) => {
     const {id} = req.body;
