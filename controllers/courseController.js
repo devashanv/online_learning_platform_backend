@@ -44,13 +44,13 @@ export const getAllCourses = async (req, res) => {
 
 //get by id
 export const getCourseById = async (req, res) => {
-    const {id} = req.body;
+    const {_id} = req.query;
 
     try{
-        const course = await courseModel.findById(id);
+        const course = await courseModel.findById(_id);
 
         if (!course){
-            return res.json({success: false, message: "Product not found."});
+            return res.json({success: false, message: "Course not found."});
         }
 
         res.json({
@@ -63,6 +63,35 @@ export const getCourseById = async (req, res) => {
         res.json({success: false, message: error.message});
     }
 }
+
+//get courses by instructor id
+export const getInstructorCourses = async (req, res) => {
+    const {instructorId} = req.body;
+
+    if (!instructorId){
+        return res.json({success: false, message: "User ID invalid."}); 
+    }
+
+    try{
+
+        const courses = await courseModel.find({instructorId});
+
+        if (!courses){
+            return res.json({success: false, message: "Courses not found."});
+        }
+
+        res.json({
+            success: true,
+            courses: courses,
+            message: "Course found."
+        })
+    }
+    catch (error){
+        res.json({success: false, message: error.message});
+    }
+}
+
+
 
 //update
 export const updateCourse = async (req, res) => {
@@ -78,7 +107,7 @@ export const updateCourse = async (req, res) => {
         res.json({
             success: true,
             course: course,
-            messgae: "Course successfully updated." 
+            message: "Course successfully updated." 
         })
     }
     catch (error){
@@ -88,10 +117,10 @@ export const updateCourse = async (req, res) => {
 
 //delete 
 export const deleteCourse = async (req, res) => {
-    const id = req.body._id;
+    const {_id} = req.body;
 
     try{
-        const course = await courseModel.findByIdAndDelete(id);
+        const course = await courseModel.findByIdAndDelete(_id);
 
         if (!course){
             return res.json({success: false, message: "Course not found to delete."})

@@ -15,10 +15,13 @@ const port = process.env.PORT || 5000;
 //invoke db conn
 dbConnect();
 
+//origins
+const frontendOrigins = ['http://localhost:5173'];
+
 //add middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({credentials: true}))
+app.use(cors({origin: frontendOrigins, credentials: true}))
 
 //routes
 app.get('/', (req, res) => res.send("API Server Working"));
