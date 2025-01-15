@@ -40,7 +40,7 @@ export const userRegister = async (req, res) => {
                maxAge: 24 * 360 * 1000,
             });
 
-            return res.json({sucess: true, message: "Registration successful."})
+            return res.json({success: true, message: "Registration successful."})
         }
 
     }
@@ -54,7 +54,7 @@ export const userLogin = async (req, res) => {
     const {email, password} = req.body;
 
     if (!email || !password){
-        return res.json({sucess: false, message: "Email and password required."})
+        return res.json({success: false, message: "Email and password required."})
     }
 
     try{
@@ -68,7 +68,7 @@ export const userLogin = async (req, res) => {
         const isPasswordCorrect = await bcrypt.compare(password, loginUser.password);
 
         if (!isPasswordCorrect){
-            return res.json({sucess: false, message: "Password incorrect."});
+            return res.json({success: false, message: "Password incorrect."});
         }
 
         //token
@@ -83,7 +83,11 @@ export const userLogin = async (req, res) => {
             maxAge: 24 * 360 * 1000,
         });
 
-        return res.json({sucess: true, message: "Login succesful."})
+        return res.json({
+            success: true,
+            user: loginUser, 
+            message: "Login succesful."
+        })
 
     }
     catch (error){
@@ -101,7 +105,7 @@ export const userLogout = async (req, res) => {
             sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",  
         });
 
-        return res.json({sucess: true, message: "Logout successful."})
+        return res.json({success: true, message: "Logout successful."})
     }
     catch (error){
         return  res.json({success: false, message: error.message});

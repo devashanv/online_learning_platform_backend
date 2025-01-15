@@ -1,9 +1,12 @@
 import enrollModel from "../model/enrollModel.js";
 import mongoose from "mongoose";
 
-//enroll course
+//new enroll 
 export const newEnroll = async (req, res) => {
     const {studentId, courseId} = req.body;
+
+    console.log("studenr", studentId)
+    console.log("course", courseId)
 
     if (!studentId || !courseId){
         return res.json({success: false, message: "Missing enroll data."})
@@ -14,13 +17,13 @@ export const newEnroll = async (req, res) => {
         await enroll.save();
 
         return res.json({
-            sucess: true,
+            success: true,
             data: enroll,
             message: "Enrollment successful."
         })
     }
     catch (error) {
-        res.json({sucess: false, message: error.message});
+        res.json({success: false, message: error.message});
     }
 }
 
@@ -37,7 +40,7 @@ export const getAllEnrollCourses = async (req, res) => {
 
         return res.json({
             success: true,
-            data: enrollCourses,
+            courses: enrollCourses,
             message: "Found all enroll courses."
         })
     }
@@ -65,5 +68,62 @@ export const updateEnrol = async (req, res) => {
     }
     catch (error) {
         res.json({success: false, message: error.message});
+    }
+}
+
+//get students by course
+export const getStudentByCourse = async (req, res) => {
+    const {courseId} = req.body;
+
+    try{
+        const enrollments = await enrollModel.find({courseId}).populate('studentId')
+
+        if (!enrollments){
+            return res.json({success: false, message: "No enrollments course found."});
+        }
+
+        const students = enrollments.map((enrollment) => enrollment.studentId);
+
+        if (!students){
+            return res.json({success: false, message: "No enrollments."});
+        }
+
+        return res.json({
+            success: true,
+            students: students,
+            message: "Get all students get successful."
+        })        
+
+
+    }
+    catch (error){
+        return res.json({success: false, message: error.message});
+    }
+}
+
+//get course by student
+export const getCourseByStudent =  async (req, res) => {
+    const {studentId} = req.body;
+
+    try{
+        const enrollments = await enrollModel.find({studentId}).populate("courseId").exec();
+
+        if (!enrollments){
+            return res.json({success: false, message: "No enrollments."});
+        }
+
+        const courses = enrollments.map(enroll => enroll.courseId);
+
+        return res.json({
+            success: false,
+            courses: courses, 
+            message: error.message
+        });
+        
+    }
+    catch (error){
+        console.log(error)
+        return res.json({success: false, message: error.message});
+        
     }
 }
