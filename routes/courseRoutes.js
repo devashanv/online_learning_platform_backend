@@ -7,6 +7,7 @@ import {
     saveCourse, 
     updateCourse 
 } from '../controllers/courseController.js';
+import { searchCourses } from '../controllers/searchController.js';
 
 
 const courseRouter = express.Router();
@@ -18,6 +19,7 @@ courseRouter.get("/course", getCourseById);
 courseRouter.post("/incourses", getInstructorCourses);
 courseRouter.put("/update", updateCourse);
 courseRouter.delete("/delete", deleteCourse);
+courseRouter.post("/search", searchCourses);
 
 
 export default courseRouter;

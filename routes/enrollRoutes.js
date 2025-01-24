@@ -1,7 +1,9 @@
 import express from "express";
 import { 
     getAllEnrollCourses,
+    getAllEnrollments,
     getCourseByStudent,
+    getCourseStudents,
     getStudentByCourse,
     newEnroll, 
     updateEnrol
@@ -18,6 +20,8 @@ enrollRouter.post("/courses", getAllEnrollCourses);
 enrollRouter.put("/update", updateEnrol);
 enrollRouter.get("/students", getStudentByCourse);
 enrollRouter.post("/stcourses", getCourseByStudent);
+enrollRouter.post("/enrollments", getAllEnrollments)
+enrollRouter.post("/coursestudents", getCourseStudents);
 
 
 export default enrollRouter;

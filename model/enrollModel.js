@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const enrollSchema = new mongoose.Schema({
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'user'
     },
     courseId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'courses'
+        ref: 'course'
     },
     date: {
         type: Date,
