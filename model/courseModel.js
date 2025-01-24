@@ -15,11 +15,17 @@ const courseSchema = new mongoose.Schema({
     },
     instructorId: {
         type: String,
+        // ref: 'user',
         required: true
     },
 });
 
+//text indexes
+courseSchema.index({title: 'text', content: 'text'})
+
 //course model
 const courseModel = mongoose.model('course', courseSchema);
+
+courseModel.createIndexes();
 
 export default courseModel;

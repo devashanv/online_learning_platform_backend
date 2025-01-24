@@ -1,5 +1,7 @@
+import courseModel from "../model/courseModel.js";
 import enrollModel from "../model/enrollModel.js";
 import mongoose from "mongoose";
+import userModel from "../model/userModel.js";
 
 //new enroll 
 export const newEnroll = async (req, res) => {
@@ -122,8 +124,55 @@ export const getCourseByStudent =  async (req, res) => {
         
     }
     catch (error){
-        console.log(error)
         return res.json({success: false, message: error.message});
         
+    }
+}
+
+//student courses
+export const getAllEnrollments = async (req, res) => {
+    const {studentId} = req.body;
+
+    try{
+
+        const enrollments = await enrollModel.find({ studentId })
+
+        const courseIndexes = enrollments.map((enroll) => enroll.courseId)
+
+        const courses =  await courseModel.find({_id: {$in: courseIndexes}})
+
+        return res.json({
+            success: true,
+            courses: courses,
+            message: "Enrollmenmts get successfull."
+        })
+
+    }
+    catch (error){
+        return res.json({success: false, message: error.message});
+    }
+}
+
+//course stuydents
+export const getCourseStudents = async (req, res) => {
+    const {courseId} = req.body;
+
+    try{
+
+        const enrollments = await enrollModel.find({ courseId })
+
+        const studentIndexes = enrollments.map((enroll) => enroll.studentId)
+
+        const students =  await userModel.find({_id: {$in: studentIndexes}})
+
+        return res.json({
+            success: true,
+            students: students,
+            message: "All students of course get successfull."
+        })
+
+    }
+    catch (error){
+        return res.json({success: false, message: error.message});
     }
 }
